@@ -3,7 +3,7 @@ package com.utfpr.delivery.dto;
 import java.util.List;
 
 import lombok.Data;
-
+ 
 @Data
 public class ExceptionDTO {
 

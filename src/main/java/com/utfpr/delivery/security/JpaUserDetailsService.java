@@ -9,26 +9,26 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.utfpr.delivery.entity.Usuario;
-import com.utfpr.delivery.service.UsuarioService;
+import com.utfpr.delivery.entity.User;
+import com.utfpr.delivery.service.UserService;
 
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
-	
+
 	@Autowired
-	private UsuarioService usuarioService;
-	
+	private UserService userService;
+
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+
 		System.out.println("loadUserByUsername");
 		System.out.println(username);
-		
-		Usuario usuario = usuarioService.getUsuarioByEmail(username);
-		
+
+		User usuario = userService.getUserByEmail(username);
+
 		return new AuthUser(usuario, Collections.emptyList());
-		
+
 	}
-	
+
 }

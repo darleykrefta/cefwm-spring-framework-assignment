@@ -6,31 +6,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
-import com.utfpr.delivery.entity.Usuario;
+import com.utfpr.delivery.entity.User; 
 import com.utfpr.delivery.exception.NotFoundException;
-import com.utfpr.delivery.repository.UsuarioRepository;
+import com.utfpr.delivery.repository.UserRepository;
 
 @Component
 public class AuthenticatedUser {
 	
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	UserRepository userRepository;
 	
 	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 	
-	public Usuario getUsuario() {
+	public User getUser() {
 		
 		Jwt jwt = (Jwt) getAuthentication().getPrincipal();
 		
-		Usuario usuario = usuarioRepository.findByUuid(jwt.getClaim("uuid"));
+		User user = userRepository.findByUuid(jwt.getClaim("uuid"));
 		
-		if (usuario == null) {
+		if (user == null) {
 			throw new NotFoundException("Usuário inválido");
 		}
 		
-		return usuario;
+		return user;
 		
 	}
 	
