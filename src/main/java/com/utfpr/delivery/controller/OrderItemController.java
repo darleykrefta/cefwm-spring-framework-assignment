@@ -1,32 +1,25 @@
 package com.utfpr.delivery.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.utfpr.delivery.dto.orderitem.OrderItemDTO;
 import com.utfpr.delivery.dto.orderitem.OrderItemInputDTO;
 import com.utfpr.delivery.entity.OrderItem;
 import com.utfpr.delivery.entity.Product;
-import com.utfpr.delivery.entity.Restaurant;
 import com.utfpr.delivery.mapper.orderitem.OrderItemInputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemOutputMapper;
-import com.utfpr.delivery.mapper.orderitem.OrderItemResponseOutputMapper;
 import com.utfpr.delivery.service.OrderItemService;
 import com.utfpr.delivery.service.ProductService;
 
@@ -39,9 +32,6 @@ public class OrderItemController {
 	
 	@Autowired
 	private ProductService productService;
-	
-	@Autowired
-	private OrderItemResponseOutputMapper orderItemResponseOutputMapper;
 	
 	@Autowired
 	private OrderItemOutputMapper orderItemOutputMapper;

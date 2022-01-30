@@ -1,7 +1,6 @@
 package com.utfpr.delivery.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.utfpr.delivery.dto.order.OrderDTO;
 import com.utfpr.delivery.dto.order.OrderInputDTO;
-import com.utfpr.delivery.dto.order.OrderInputItemsDTO;
 import com.utfpr.delivery.dto.order.OrderResponseDTO;
 import com.utfpr.delivery.dto.orderitem.OrderItemDTO;
 import com.utfpr.delivery.dto.orderitem.OrderItemInputDTO;
@@ -39,7 +37,6 @@ import com.utfpr.delivery.mapper.order.OrderInputMapper;
 import com.utfpr.delivery.mapper.order.OrderOutputMapper;
 import com.utfpr.delivery.mapper.order.OrderResponseOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemInputMapper;
-import com.utfpr.delivery.mapper.orderitem.OrderItemOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemResponseOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemsOutputMapper;
 import com.utfpr.delivery.security.AuthenticatedUser;
@@ -48,7 +45,6 @@ import com.utfpr.delivery.service.OrderItemService;
 import com.utfpr.delivery.service.OrderService;
 import com.utfpr.delivery.service.ProductService;
 import com.utfpr.delivery.service.RestaurantService;
-import com.utfpr.delivery.service.UserService;
 
 @RestController
 @RequestMapping("/orders")
@@ -68,7 +64,7 @@ public class OrderController {
 
 	@Autowired
 	private OrderItemService orderItemService;
-	
+
 	@Autowired
 	private ProductService productService;
 
@@ -86,7 +82,7 @@ public class OrderController {
 
 	@Autowired
 	private OrderItemInputMapper orderItemInputMapper;
-	
+
 	@Autowired
 	private OrderItemsOutputMapper orderItemsOutputMapper;
 
@@ -151,26 +147,27 @@ public class OrderController {
 
 	@PostMapping("/{orderId}/items")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private List<OrderItemDTO> createItemsByOrder(@RequestBody @Valid OrderItemsInputDTO orderItemsInputDTO, @PathVariable(value = "orderId") String orderId) {
+	private List<OrderItemDTO> createItemsByOrder(@RequestBody @Valid OrderItemsInputDTO orderItemsInputDTO,
+			@PathVariable(value = "orderId") String orderId) {
 
 		Order order = orderService.getOrderByUuid(orderId);
-		
+
 		List<OrderItem> orderItems = new ArrayList<OrderItem>();
-		
+
 		for (final OrderItemInputDTO item : orderItemsInputDTO.getItems()) {
 
 			OrderItem orderItem = orderItemInputMapper.mapearEntity(item);
-			
+
 			Product product = productService.getProductByUuid(item.getProduct());
 			orderItem.setProduct(product);
 			orderItem.setOrder(order);
 			orderItem.setQuantity(item.getQuantity());
-			
+
 			orderItem = orderItemService.save(orderItem);
-	        
+
 			orderItems.add(orderItem);
 		}
-		 
+
 		List<OrderItemDTO> orderItemDTO = orderItemsOutputMapper.mapearDTO(orderItems);
 
 		return orderItemDTO;

@@ -1,7 +1,6 @@
 package com.utfpr.delivery.mapper.orderitem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
