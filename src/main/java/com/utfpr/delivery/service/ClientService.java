@@ -19,14 +19,12 @@ public class ClientService {
 	@Autowired
 	private ClientRepository clientRepository;
 
-	public List<Client> listarTodosOsClients() {
-
+	public List<Client> getAllClients() {
 		return clientRepository.findAll();
-
 	}
 
 	public Client getClientByUuid(String uuid) {
-
+		
 		Client client = clientRepository.findByUuid(uuid);
 
 		if (client == null) {

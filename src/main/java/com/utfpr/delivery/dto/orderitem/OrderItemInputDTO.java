@@ -2,9 +2,6 @@ package com.utfpr.delivery.dto.orderitem;
 
 import javax.validation.constraints.NotBlank;
 
-import com.utfpr.delivery.entity.Order;
-import com.utfpr.delivery.entity.Product;
-
 import lombok.Data;
 
 @Data

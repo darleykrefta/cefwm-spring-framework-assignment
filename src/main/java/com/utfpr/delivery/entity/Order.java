@@ -1,6 +1,5 @@
 package com.utfpr.delivery.entity;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -15,8 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Entity
 @Table(name = "orders")
@@ -40,9 +42,6 @@ public class Order {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user")
 	private User user;
-	
-	@OneToMany()
-	private List<OrderItem> orderItems;
 
 	@PrePersist
 	private void gerarUUID() {

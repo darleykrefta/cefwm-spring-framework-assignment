@@ -11,17 +11,21 @@ import org.springframework.stereotype.Service;
 import com.utfpr.delivery.entity.OrderItem;
 import com.utfpr.delivery.exception.NotFoundException;
 import com.utfpr.delivery.repository.OrderItemRepository;
+import com.utfpr.delivery.repository.OrderRepository;
 import com.utfpr.delivery.utils.Utils;
 
 @Service
 public class OrderItemService {
 
 	@Autowired
+	private OrderRepository orderRepository;
+	
+	@Autowired
 	private OrderItemRepository orderItemRepository;
 
-	public List<OrderItem> listarTodosOsOrderItems() {
+	public List<OrderItem> getAllItemsByOrder(String orderId) {
 
-		return orderItemRepository.findAll();
+		return orderItemRepository.findByOrder(orderRepository.findByUuid(orderId));
 
 	}
 
@@ -45,23 +49,23 @@ public class OrderItemService {
 
 	public OrderItem update(String uuid, OrderItem orderItem) {
  
-		OrderItem orderItemAtual = this.getOrderItemByUuid(uuid);
+		OrderItem currentOrderItem = this.getOrderItemByUuid(uuid);
  
-		BeanUtils.copyProperties(orderItem, orderItemAtual, "id", "uuid");
+		BeanUtils.copyProperties(orderItem, currentOrderItem, "id", "uuid");
 
-		return orderItemRepository.save(orderItemAtual);
+		return orderItemRepository.save(currentOrderItem);
 
 	}
 
 	public OrderItem change(String uuid, Map<String, Object> campos) {
 
-		OrderItem orderItemAtual = this.getOrderItemByUuid(uuid);
+		OrderItem currentOrderItem = this.getOrderItemByUuid(uuid);
 
-		Utils.merge(orderItemAtual, campos);
+		Utils.merge(currentOrderItem, campos);
 
-		orderItemAtual = this.save(orderItemAtual);
+		currentOrderItem = this.save(currentOrderItem);
 
-		return orderItemAtual;
+		return currentOrderItem;
 
 	}
 

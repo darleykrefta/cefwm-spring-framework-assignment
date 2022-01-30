@@ -14,8 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Entity
 @Table(name = "order_item")
@@ -34,11 +37,11 @@ public class OrderItem {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product")
 	private Product product;
-//	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "order")
-//	private Order order;
-//	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id")
+	private Order order;
+	
 	@PrePersist
 	private void gerarUUID() {
 		setUuid(UUID.randomUUID().toString());

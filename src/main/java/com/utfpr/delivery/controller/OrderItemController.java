@@ -21,19 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.utfpr.delivery.dto.orderitem.OrderItemDTO;
 import com.utfpr.delivery.dto.orderitem.OrderItemInputDTO;
-import com.utfpr.delivery.dto.orderitem.OrderItemResponseDTO;
 import com.utfpr.delivery.entity.OrderItem;
+import com.utfpr.delivery.entity.Product;
+import com.utfpr.delivery.entity.Restaurant;
 import com.utfpr.delivery.mapper.orderitem.OrderItemInputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemResponseOutputMapper;
 import com.utfpr.delivery.service.OrderItemService;
+import com.utfpr.delivery.service.ProductService;
 
 @RestController
-@RequestMapping("/orderItems")
+@RequestMapping("/order-items")
 public class OrderItemController {
 	
 	@Autowired
 	private OrderItemService orderItemService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private OrderItemResponseOutputMapper orderItemResponseOutputMapper;
@@ -44,17 +49,6 @@ public class OrderItemController {
 	@Autowired
 	private OrderItemInputMapper orderItemInputMapper;
 	
-	@GetMapping
-	@ResponseBody
-	public List<OrderItemResponseDTO> listarTodosOsOrderItems() {
-		
-		List<OrderItem> orderItems = orderItemService.listarTodosOsOrderItems();
-		
-		List<OrderItemResponseDTO> orderItemResponseDTOs = orderItemResponseOutputMapper.mapearLista(orderItems);
-		
-		return orderItemResponseDTOs;
-		
-	}
 	
 	@GetMapping("/{uuid}")
 	@ResponseBody
@@ -67,26 +61,15 @@ public class OrderItemController {
 		return orderItemDTO;
 		
 	}
-	
-	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	private OrderItemDTO adicionar(@RequestBody @Valid OrderItemInputDTO orderItemInputDTO) {
-		
-		OrderItem orderItem = orderItemInputMapper.mapearEntity(orderItemInputDTO);
-		
-		orderItem = orderItemService.save(orderItem);
-		
-		OrderItemDTO orderItemDTO = orderItemOutputMapper.mapearDTO(orderItem);
-		
-		return orderItemDTO;
-		
-	}
-	
+	 
 	@PutMapping("/{uuid}")
 	@ResponseBody
 	private OrderItemDTO alterar(@PathVariable String uuid, @Valid @RequestBody OrderItemInputDTO orderItemInputDTO) {
 		
 		OrderItem orderItem = orderItemInputMapper.mapearEntity(orderItemInputDTO);
+		
+		Product product = productService.getProductByUuid(orderItemInputDTO.getProduct());
+		orderItem.setProduct(product);
 		
 		orderItem = orderItemService.update(uuid, orderItem);
 		

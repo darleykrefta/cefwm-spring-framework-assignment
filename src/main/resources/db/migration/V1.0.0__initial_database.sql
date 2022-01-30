@@ -68,10 +68,10 @@ CREATE TABLE IF NOT EXISTS `delivery`.`order_item` (
   `uuid` VARCHAR(45) NULL,
   `product` INT NULL,
   `quantity` INT NULL,
-  `order` INT NULL,
+  `order_id` INT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_order_order_item`
-    FOREIGN KEY (`order`)
+    FOREIGN KEY (`order_id`)
     REFERENCES `delivery`.`orders` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `delivery`.`order_item` (
     REFERENCES `delivery`.`product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION) ENGINE = InnoDB DEFAULT CHARSET=utf8;
-CREATE INDEX `fk_order_order_item_idx` ON `delivery`.`order_item` (`order` ASC);
+CREATE INDEX `fk_order_order_item_idx` ON `delivery`.`order_item` (`order_id` ASC);
 CREATE INDEX `fk_product_order_item_idx` ON `delivery`.`order_item` (`product` ASC);
 
 

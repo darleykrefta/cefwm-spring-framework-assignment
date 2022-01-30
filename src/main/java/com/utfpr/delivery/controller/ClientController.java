@@ -1,3 +1,4 @@
+
 package com.utfpr.delivery.controller;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class ClientController {
 	@ResponseBody
 	public List<ClientResponseDTO> listarTodosOsClients() {
 		
-		List<Client> clients = clientService.listarTodosOsClients();
+		List<Client> clients = clientService.getAllClients();
 		
 		List<ClientResponseDTO> clientResponseDTOs = clientResponseOutputMapper.mapearLista(clients);
 		
