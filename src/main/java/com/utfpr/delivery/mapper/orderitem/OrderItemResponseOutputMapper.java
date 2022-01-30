@@ -20,6 +20,8 @@ public class OrderItemResponseOutputMapper {
 		
 		OrderItemResponseDTO orderItemeResumoDTO = modelMapper.map(orderItem, OrderItemResponseDTO.class);
 		
+		orderItemeResumoDTO.setTotal(orderItem.getQuantity() * orderItem.getProduct().getPrice());
+		
 		return orderItemeResumoDTO;
 		
 	}

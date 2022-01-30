@@ -22,6 +22,7 @@ public class OrderItemsOutputMapper {
 		
 		for (final OrderItem item : orderItems) {
 			OrderItemDTO orderItemDTO = modelMapper.map(item, OrderItemDTO.class);
+			orderItemDTO.setTotal(item.getQuantity() * item.getProduct().getPrice());
 			orderItemsOutput.add(orderItemDTO);
 		}
 		

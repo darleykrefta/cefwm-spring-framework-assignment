@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -95,17 +94,7 @@ public class RestaurantController {
 		return restaurantDTO;
 		
 	}
-	
-	@PatchMapping("/{uuid}")
-	@ResponseBody
-	private Restaurant ajustar(@PathVariable String uuid, @RequestBody RestaurantInputDTO restaurantInputDTO) {
-		
-		Restaurant restaurant = restaurantInputMapper.mapearEntity(restaurantInputDTO);
-		
-		return restaurantService.update(uuid, restaurant);
-		
-	}
-	
+
 	@DeleteMapping("/{uuid}")
 	private ResponseEntity<Restaurant> deletar(@PathVariable String uuid) {
 		

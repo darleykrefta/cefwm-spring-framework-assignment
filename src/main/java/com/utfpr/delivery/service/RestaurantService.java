@@ -2,7 +2,6 @@ package com.utfpr.delivery.service;
 
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import com.utfpr.delivery.exception.BadRequestException;
 import com.utfpr.delivery.exception.NotFoundException;
 import com.utfpr.delivery.repository.RestaurantRepository;
 import com.utfpr.delivery.security.AuthenticatedUser;
-import com.utfpr.delivery.utils.Utils;
 
 @Service
 public class RestaurantService {
@@ -65,25 +63,7 @@ public class RestaurantService {
 		return restaurantRepository.save(restaurantAtual);
 		
 	}
-	
-	public Restaurant change(String uuid, Map<String, Object> campos) {
-		
-		User usuario = authenticatedUser.getUser();
-		
-		Restaurant restaurantAtual = this.getRestaurantByUuid(uuid);
-		
-		if (!restaurantAtual.getId().equals(usuario.getRestaurant().getId())) {
-			throw new BadRequestException("Usuário não tem acesso para modificar este restaurant");
-		}
-		
-		Utils.merge(restaurantAtual, campos);
-		
-		restaurantAtual = this.save(restaurantAtual);
-		
-		return restaurantAtual;
-		
-	}
-	
+
 	public boolean delete(String uuid) {
 		
 		User usuario = authenticatedUser.getUser();

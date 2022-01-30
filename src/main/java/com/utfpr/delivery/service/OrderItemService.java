@@ -1,7 +1,6 @@
 package com.utfpr.delivery.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import com.utfpr.delivery.entity.OrderItem;
 import com.utfpr.delivery.exception.NotFoundException;
 import com.utfpr.delivery.repository.OrderItemRepository;
 import com.utfpr.delivery.repository.OrderRepository;
-import com.utfpr.delivery.utils.Utils;
 
 @Service
 public class OrderItemService {
@@ -54,18 +52,6 @@ public class OrderItemService {
 		BeanUtils.copyProperties(orderItem, currentOrderItem, "id", "uuid");
 
 		return orderItemRepository.save(currentOrderItem);
-
-	}
-
-	public OrderItem change(String uuid, Map<String, Object> campos) {
-
-		OrderItem currentOrderItem = this.getOrderItemByUuid(uuid);
-
-		Utils.merge(currentOrderItem, campos);
-
-		currentOrderItem = this.save(currentOrderItem);
-
-		return currentOrderItem;
 
 	}
 

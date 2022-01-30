@@ -1,7 +1,6 @@
 package com.utfpr.delivery.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.utfpr.delivery.entity.Order;
 import com.utfpr.delivery.exception.NotFoundException;
 import com.utfpr.delivery.repository.OrderRepository;
-import com.utfpr.delivery.utils.Utils;
 
 @Service
 public class OrderService {
@@ -50,18 +48,6 @@ public class OrderService {
 		BeanUtils.copyProperties(order, orderAtual, "id", "uuid");
 
 		return orderRepository.save(orderAtual);
-
-	}
-
-	public Order change(String uuid, Map<String, Object> campos) {
-
-		Order orderAtual = this.getOrderByUuid(uuid);
-
-		Utils.merge(orderAtual, campos);
-
-		orderAtual = this.save(orderAtual);
-
-		return orderAtual;
 
 	}
 

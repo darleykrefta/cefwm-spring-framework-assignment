@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +36,7 @@ import com.utfpr.delivery.mapper.order.OrderInputMapper;
 import com.utfpr.delivery.mapper.order.OrderOutputMapper;
 import com.utfpr.delivery.mapper.order.OrderResponseOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemInputMapper;
+import com.utfpr.delivery.mapper.orderitem.OrderItemOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemResponseOutputMapper;
 import com.utfpr.delivery.mapper.orderitem.OrderItemsOutputMapper;
 import com.utfpr.delivery.security.AuthenticatedUser;
@@ -85,6 +85,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderItemsOutputMapper orderItemsOutputMapper;
+	
+	@Autowired
+	private OrderItemOutputMapper orderItemOutputMapper;
 
 	@GetMapping
 	@ResponseBody
@@ -174,27 +177,46 @@ public class OrderController {
 
 	}
 
+	@PutMapping("/{orderId}/items/{uuid}")
+	@ResponseBody
+	private OrderItemDTO update(@PathVariable String orderId, @PathVariable String uuid, @Valid @RequestBody OrderItemInputDTO orderItemInputDTO) {
+		
+		Order order = orderService.getOrderByUuid(orderId);
+		
+		OrderItem orderItem = orderItemInputMapper.mapearEntity(orderItemInputDTO);
+		
+		Product product = productService.getProductByUuid(orderItemInputDTO.getProduct());
+		orderItem.setProduct(product);
+		orderItem.setOrder(order);
+		
+		orderItem = orderItemService.update(uuid, orderItem);
+
+		OrderItemDTO orderItemDTO = orderItemOutputMapper.mapearDTO(orderItem);
+		
+		return orderItemDTO;
+		
+	}
+
 	@PutMapping("/{uuid}")
 	@ResponseBody
 	private OrderDTO alterar(@PathVariable String uuid, @Valid @RequestBody OrderInputDTO orderInputDTO) {
 
 		Order order = orderInputMapper.mapearEntity(orderInputDTO);
 
+		Restaurant restaurant = restaurantService.getRestaurantByUuid(orderInputDTO.getRestaurant());
+		order.setRestaurant(restaurant);
+
+		Client client = clientService.getClientByUuid(orderInputDTO.getClient());
+		order.setClient(client);
+
+		User user = authenticatedUser.getUser();
+		order.setUser(user);
+
 		order = orderService.update(uuid, order);
 
 		OrderDTO orderDTO = orderOutputMapper.mapearDTO(order);
 
 		return orderDTO;
-
-	}
-
-	@PatchMapping("/{uuid}")
-	@ResponseBody
-	private Order ajustar(@PathVariable String uuid, @RequestBody OrderInputDTO orderInputDTO) {
-
-		Order order = orderInputMapper.mapearEntity(orderInputDTO);
-
-		return orderService.update(uuid, order);
 
 	}
 

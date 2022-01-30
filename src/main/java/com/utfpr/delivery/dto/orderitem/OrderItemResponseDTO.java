@@ -1,6 +1,5 @@
 package com.utfpr.delivery.dto.orderitem;
 
-import com.utfpr.delivery.entity.Order;
 import com.utfpr.delivery.entity.Product;
 
 import lombok.Data;
@@ -11,8 +10,8 @@ public class OrderItemResponseDTO {
 	private String uuid;
 
 	private Double quantity;
+	
+	private Double total;
 
 	private Product product;
-
-	private Order order;
 }
