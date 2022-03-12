@@ -65,14 +65,7 @@ public class RestaurantService {
 	}
 
 	public boolean delete(String uuid) {
-		
-		User usuario = authenticatedUser.getUser();
-		
 		Restaurant restaurant = this.getRestaurantByUuid(uuid);
-		
-		if (!restaurant.getId().equals(usuario.getRestaurant().getId())) {
-			throw new BadRequestException("Usuário não tem acesso para excluir este restaurant");
-		}
 		
 		if (restaurant != null) {
 			

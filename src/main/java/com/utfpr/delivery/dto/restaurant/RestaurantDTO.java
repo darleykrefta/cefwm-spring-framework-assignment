@@ -11,6 +11,6 @@ public class RestaurantDTO {
 	
 	private String name;
 	
-	private BigDecimal taxaFrete;
+	private BigDecimal freight;
 
 }

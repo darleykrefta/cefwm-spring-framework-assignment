@@ -8,5 +8,7 @@ public class RestaurantResponseDTO {
 	private String uuid;
 	
 	private String name;
+	
+	private String freight;
 
 }

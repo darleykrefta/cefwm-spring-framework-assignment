@@ -31,8 +31,8 @@ public class Restaurant {
 	@Column(length = 45)
 	private String name;
 	
-	@Column(name = "taxa_frete")
-	private BigDecimal taxaFrete;
+	@Column(name = "freight")
+	private BigDecimal freight;
 	
 	@PrePersist
 	private void gerarUUID() {

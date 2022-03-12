@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `delivery`.`restaurant` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `uuid` VARCHAR(45) NULL,
   `name` VARCHAR(45) NULL,
-  `taxa_frete` VARCHAR(45) NULL,
+  `freight` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `delivery`.`user` (
@@ -85,6 +85,6 @@ CREATE INDEX `fk_product_order_item_idx` ON `delivery`.`order_item` (`product` A
 
 
 
-INSERT INTO `delivery`.`restaurant` (`id`, `name`, `taxa_frete`, `uuid`) VALUES ('1', 'Restaurante do User', '10', '00b8fd02-eba0-48ed-8806-8d88176f9c42');
+INSERT INTO `delivery`.`restaurant` (`id`, `name`, `freight`, `uuid`) VALUES ('1', 'Restaurante do User', '10', '00b8fd02-eba0-48ed-8806-8d88176f9c42');
 
 INSERT INTO `delivery`.`user` (`id`, `email`, `name`, `password`, `status`, `username`, `uuid`, `restaurant`) VALUES ('1', 'user@user.com', 'User', '$2a$12$3GOp.wck4WC52Fuj9Pj8UOk/wkY53p2f5oOfL80y9a8dbUNY2v1sq', 1, 'user', '7e9779f6-15da-4457-b7ee-e026329cb605', 1);
